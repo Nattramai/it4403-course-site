@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab 2 Exercise 3 - Selectors DOM CSS</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <style>
+    body { font-family: Arial, Helvetica, sans-serif; margin: 0; background: #f5f6f8; color: #1b1b1b; }
+    .wrap { width: min(900px, calc(100% - 40px)); margin: 40px auto; }
+    .card { background: white; border: 1px solid #d8dce2; border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+    button, select, input { font: inherit; padding: 10px 12px; margin: 6px 6px 6px 0; }
+    button { cursor: pointer; }
+    .result { margin-top: 15px; font-weight: bold; }
+    table { width: 100%; border-collapse: collapse; background: white; }
+    th, td { border: 1px solid #bbb; padding: 10px; text-align: left; }
+    img { max-width: 100%; border-radius: 8px; }
+    .thumb { width: 120px; height: 80px; object-fit: cover; cursor: pointer; margin: 5px; border: 2px solid transparent; }
+    .error { color: #a00000; }
+    a { color: #1f5d92; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+<div class="card">
+<h1 id="mainHeading">Exercise 3: jQuery Selectors, DOM, and CSS</h1>
+<p class="demo">Paragraph one with class <code>demo</code>.</p>
+<p class="demo">Paragraph two with class <code>demo</code>.</p>
+<p id="special">This paragraph has the ID <code>special</code>.</p>
+<ul id="itemList"><li>Alpha</li><li>Bravo</li><li>Charlie</li></ul>
+<button id="readText">Read Heading Text</button>
+<button id="changeText">Change Special Text</button>
+<button id="toggleDemo">Toggle Demo Paragraphs</button>
+<button id="stylePage">Change CSS</button>
+<button id="changeAttr">Change Heading Attribute</button>
+<div class="result" id="output"></div>
+</div>
+<script>
+$(function () {
+  $("#readText").click(function () { $("#output").text("Heading text: " + $("#mainHeading").text()); });
+  $("#changeText").click(function () { $("#special").html("<strong>The content of this element was changed with jQuery.</strong>"); });
+  $("#toggleDemo").click(function () { $(".demo").toggle(); });
+  $("#stylePage").click(function () {
+    $("#mainHeading").css({
+      "background-color": "#efefef",
+      "color": "#222",
+      "font-size": "34px",
+      "border": "2px solid #222",
+      "padding": "12px",
+      "width": "fit-content"
+    });
+  });
+  $("#changeAttr").click(function () {
+    $("#mainHeading").attr("title", "This title attribute was added with jQuery.");
+    $("#output").text("A title attribute was added to the heading.");
+  });
+});
+</script>
+</div>
+</body>
+</html>

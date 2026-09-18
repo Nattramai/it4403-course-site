@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab 2 Exercise 7 - Picture Browser</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <style>
+    body { font-family: Arial, Helvetica, sans-serif; margin: 0; background: #f5f6f8; color: #1b1b1b; }
+    .wrap { width: min(900px, calc(100% - 40px)); margin: 40px auto; }
+    .card { background: white; border: 1px solid #d8dce2; border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+    button, select, input { font: inherit; padding: 10px 12px; margin: 6px 6px 6px 0; }
+    button { cursor: pointer; }
+    .result { margin-top: 15px; font-weight: bold; }
+    table { width: 100%; border-collapse: collapse; background: white; }
+    th, td { border: 1px solid #bbb; padding: 10px; text-align: left; }
+    img { max-width: 100%; border-radius: 8px; }
+    .thumb { width: 120px; height: 80px; object-fit: cover; cursor: pointer; margin: 5px; border: 2px solid transparent; }
+    .error { color: #a00000; }
+    a { color: #1f5d92; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+<div class="card">
+<h1>Exercise 7: Picture Browser Application</h1>
+<div id="viewer">
+<img id="mainImage" src="https://picsum.photos/id/1015/800/450" alt="Landscape image">
+<p id="caption">Image 1 of 5</p>
+</div>
+<button id="prev">Previous</button>
+<button id="next">Next</button>
+<button id="auto">Start Slideshow</button>
+<div id="thumbs"></div>
+<p id="imageError" class="error"></p>
+</div>
+<script>
+$(function () {
+  const images = [
+    "https://picsum.photos/id/1015/800/450",
+    "https://picsum.photos/id/1025/800/450",
+    "https://picsum.photos/id/1035/800/450",
+    "https://picsum.photos/id/1043/800/450",
+    "https://picsum.photos/id/1069/800/450"
+  ];
+  let index = 0, timer = null;
+  function showImage(newIndex) {
+    index = (newIndex + images.length) % images.length;
+    $("#imageError").text("");
+    $("#mainImage").fadeOut(180, function () {
+      $(this).attr("src", images[index]).fadeIn(180);
+    });
+    $("#caption").text("Image " + (index + 1) + " of " + images.length);
+  }
+  images.forEach(function (src, i) {
+    const thumb = $("<img>").attr("src", src).attr("alt", "Thumbnail " + (i + 1))
+      .addClass("thumb").click(function () { showImage(i); });
+    $("#thumbs").append(thumb);
+  });
+  $("#next").click(function () { showImage(index + 1); });
+  $("#prev").click(function () { showImage(index - 1); });
+  $("#auto").click(function () {
+    if (timer) {
+      clearInterval(timer); timer = null; $(this).text("Start Slideshow");
+    } else {
+      timer = setInterval(function () { showImage(index + 1); }, 2500);
+      $(this).text("Stop Slideshow");
+    }
+  });
+  $(document).keydown(function (event) {
+    if (event.key === "ArrowRight") showImage(index + 1);
+    if (event.key === "ArrowLeft") showImage(index - 1);
+  });
+  $("#mainImage").on("error", function () {
+    $("#imageError").text("The selected image could not be loaded.");
+  });
+});
+</script>
+</div>
+</body>
+</html>

@@ -1,15 +1,16 @@
-# IT 4403 Course Website
+IT 4403 - Lab 2: jQuery
 
-Files included:
-- index.html
-- styles.css
-- exercises.html
-- labs.html
-- projects.html
+Included:
+- lab2.html
+- lab2_ex1.html
+- lab2_ex2.html
+- lab2_ex3.html
+- lab2_ex4.html
+- lab2_ex5.html
+- lab2_ex6.html
+- lab2_ex7.html
 
-Open index.html in a browser to preview the site locally.
+Upload these files to the root of your GitHub Pages repository.
+Then add a link from your existing labs.html page to lab2.html.
 
-Before submitting:
-1. Publish these files through your chosen hosting provider.
-2. Confirm the public URL works in a private/incognito browser window.
-3. Add assignment links to the Exercises, Labs, and Projects pages as the semester continues.
+Exercise 1 requires the instructor-provided JavaScript and jQuery Examples ZIP.
