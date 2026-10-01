@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Milestone 1 - Open Library Search Results</title>
+  <script src="jquery.min.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: #f4f6f8; color: #1f2933; line-height: 1.55; }
+    header { background: #182b49; color: white; padding: 28px 20px; }
+    header .wrap, main, footer .wrap { max-width: 1150px; margin: auto; }
+    header h1 { margin: 0 0 6px; font-size: 2rem; }
+    header p { margin: 0; color: #d9e2ec; }
+    nav { background: #0f2038; }
+    nav .wrap { max-width: 1150px; margin: auto; display: flex; flex-wrap: wrap; gap: 4px; padding: 8px 20px; }
+    nav a { color: white; text-decoration: none; padding: 8px 12px; border-radius: 5px; }
+    nav a:hover, nav a:focus { background: #294d77; outline: none; }
+    main { padding: 28px 20px 42px; }
+    .intro { background: white; border-left: 4px solid #2c5282; padding: 14px 16px; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,.06); margin-bottom: 22px; }
+    #results { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
+    .book { display: grid; grid-template-columns: 110px 1fr; gap: 16px; background: white; padding: 18px; border-radius: 9px; box-shadow: 0 4px 14px rgba(0,0,0,.08); }
+    .book img { width: 100%; min-height: 150px; object-fit: cover; border-radius: 5px; background: #e5e7eb; }
+    .cover-fallback { min-height: 150px; display: none; align-items: center; justify-content: center; text-align: center; background: #e5e7eb; color: #52606d; border-radius: 5px; padding: 8px; font-size: .9rem; }
+    .book h2 { margin: 0 0 8px; color: #182b49; font-size: 1.25rem; line-height: 1.25; }
+    .book p { margin: 4px 0; font-size: .95rem; }
+    .book strong { color: #334e68; }
+    .book a { display: inline-block; margin-top: 10px; color: #1f5a94; font-weight: 700; }
+    .book a:focus { outline: 2px solid #1f5a94; outline-offset: 2px; }
+    footer { background: #182b49; color: #d9e2ec; padding: 18px 20px; }
+    @media (max-width: 480px) { .book { grid-template-columns: 1fr; } .book img, .cover-fallback { max-width: 150px; } }
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>Open Library Search Results</h1>
+    <p>Predetermined search phrase: “modern web”</p>
+  </div>
+</header>
+<nav aria-label="Primary navigation">
+  <div class="wrap">
+    <a href="index.html">Home</a>
+    <a href="labs.html">Lab Work</a>
+    <a href="milestone1-book.html">Single Book</a>
+    <a href="milestone1-search.html" aria-current="page">Search Results</a>
+  </div>
+</nav>
+<main>
+  <div id="summary" class="intro">Loading saved search results...</div>
+  <section id="results" aria-live="polite" aria-label="Book search results"></section>
+</main>
+<footer><div class="wrap">Alex Clark - Kennesaw State University - IT 4403</div></footer>
+
+<script>
+$(document).ready(function () {
+  $.getJSON("openlibrary-search.json")
+    .done(function (data) {
+      var docs = Array.isArray(data.docs) ? data.docs : [];
+      $("#summary").text("Showing " + docs.length + " saved results for “" + (data.q || "modern web") + ".”");
+
+      if (docs.length === 0) {
+        $("#results").html("<p>No saved results are available.</p>");
+        return;
+      }
+
+      $.each(docs, function (index, book) {
+        function valueOrNA(value) {
+          if (value === undefined || value === null || value === "") return "Not available";
+          if (Array.isArray(value)) return value.length ? value.join(", ") : "Not available";
+          return value;
+        }
+
+        var title = valueOrNA(book.title);
+        var authors = valueOrNA(book.author_name);
+        var year = valueOrNA(book.first_publish_year);
+        var publishers = valueOrNA(book.publisher);
+        var editions = valueOrNA(book.edition_count);
+        var isbns = valueOrNA(book.isbn);
+        var languages = valueOrNA(book.language);
+        var subjects = Array.isArray(book.subject) && book.subject.length ? book.subject.slice(0, 4).join(", ") : "Not available";
+        var recordKey = book.key || "";
+        var recordUrl = recordKey ? "https://openlibrary.org" + recordKey : "https://openlibrary.org";
+
+        var $card = $("<article>", { class: "book" });
+        var $coverArea = $("<div>");
+        var $img = $("<img>", { alt: "Cover of " + title });
+        var $fallback = $("<div>", { class: "cover-fallback", text: "Cover image not available." });
+
+        var coverUrl = "";
+        if (book.cover_i) {
+          coverUrl = "https://covers.openlibrary.org/b/id/" + book.cover_i + "-M.jpg";
+        } else if (Array.isArray(book.isbn) && book.isbn.length) {
+          coverUrl = "https://covers.openlibrary.org/b/isbn/" + book.isbn[0] + "-M.jpg";
+        }
+
+        if (coverUrl) {
+          $img.attr("src", coverUrl).on("error", function () {
+            $(this).hide();
+            $fallback.css("display", "flex");
+          });
+        } else {
+          $img.hide();
+          $fallback.css("display", "flex");
+        }
+
+        $coverArea.append($img, $fallback);
+
+        var $info = $("<div>");
+        $info.append(
+          $("<h2>").text(title),
+          $("<p>").append($("<strong>").text("Author(s): "), document.createTextNode(authors)),
+          $("<p>").append($("<strong>").text("First published: "), document.createTextNode(year)),
+          $("<p>").append($("<strong>").text("Publisher(s): "), document.createTextNode(publishers)),
+          $("<p>").append($("<strong>").text("Edition count: "), document.createTextNode(editions)),
+          $("<p>").append($("<strong>").text("ISBN: "), document.createTextNode(isbns)),
+          $("<p>").append($("<strong>").text("Language: "), document.createTextNode(languages)),
+          $("<p>").append($("<strong>").text("Subjects: "), document.createTextNode(subjects)),
+          $("<a>", { href: recordUrl, target: "_blank", rel: "noopener", text: "View Open Library record" })
+        );
+
+        $card.append($coverArea, $info);
+        $("#results").append($card);
+      });
+    })
+    .fail(function () {
+      $("#summary").text("The search data could not be loaded. Make sure openlibrary-search.json is in the same folder as this webpage.");
+    });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+{
+  "numFound": 1128,
+  "start": 0,
+  "numFoundExact": true,
+  "q": "modern web",
+  "docs": [
+    {
+      "key": "/works/OL21572859W",
+      "title": "Modern Web Development",
+      "author_name": ["Dino Esposito"],
+      "first_publish_year": 2016,
+      "publisher": ["Microsoft Press"],
+      "edition_count": 3,
+      "isbn": ["9781509300617"],
+      "language": ["eng"],
+      "subject": ["Web site development", "Web applications"]
+    },
+    {
+      "key": "/works/OL15933758W",
+      "title": "The Tangled Web",
+      "author_name": ["Michal Zalewski"],
+      "first_publish_year": 2011,
+      "publisher": ["No Starch Press"],
+      "edition_count": 4,
+      "isbn": ["1593273886", "9781593273880"],
+      "language": ["eng"],
+      "subject": ["Computer security", "Web applications", "Browsers"]
+    },
+    {
+      "key": "/works/OL17470518W",
+      "title": "Learning Web Design",
+      "author_name": ["Jennifer Niederst Robbins"],
+      "first_publish_year": 2007,
+      "publisher": ["O'Reilly Media"],
+      "edition_count": 8,
+      "isbn": ["9781491960202"],
+      "language": ["eng"],
+      "subject": ["Web design", "HTML", "CSS"]
+    },
+    {
+      "key": "/works/OL19613089W",
+      "title": "Modern JavaScript for the Impatient",
+      "author_name": ["Cay S. Horstmann"],
+      "first_publish_year": 2020,
+      "publisher": ["Addison-Wesley Professional"],
+      "edition_count": 2,
+      "isbn": ["9780136502142"],
+      "language": ["eng"],
+      "subject": ["JavaScript", "Web programming"]
+    },
+    {
+      "key": "/works/OL257943W",
+      "title": "Don't Make Me Think, Revisited",
+      "author_name": ["Steve Krug"],
+      "first_publish_year": 2000,
+      "publisher": ["New Riders"],
+      "edition_count": 6,
+      "isbn": ["9780321965516"],
+      "language": ["eng"],
+      "subject": ["Web usability", "User experience"]
+    },
+    {
+      "key": "/works/OL14981062W",
+      "title": "HTML & CSS: Design and Build Websites",
+      "author_name": ["Jon Duckett"],
+      "first_publish_year": 2011,
+      "publisher": ["Wiley"],
+      "edition_count": 6,
+      "isbn": ["9781118008188"],
+      "language": ["eng"],
+      "subject": ["HTML", "CSS", "Web design"]
+    },
+    {
+      "key": "/works/OL17393828W",
+      "title": "Learning PHP, MySQL & JavaScript",
+      "author_name": ["Robin Nixon"],
+      "first_publish_year": 2009,
+      "publisher": ["O'Reilly Media"],
+      "edition_count": 9,
+      "isbn": ["9781491978917"],
+      "language": ["eng"],
+      "subject": ["PHP", "MySQL", "JavaScript", "Web development"]
+    },
+    {
+      "key": "/works/OL19548273W",
+      "title": "Web Development with Node and Express",
+      "author_name": ["Ethan Brown"],
+      "first_publish_year": 2014,
+      "publisher": ["O'Reilly Media"],
+      "edition_count": 3,
+      "isbn": ["9781492053514"],
+      "language": ["eng"],
+      "subject": ["Node.js", "Express.js", "Web development"]
+    },
+    {
+      "key": "/works/OL20887519W",
+      "title": "Modern Full-Stack Development",
+      "author_name": ["Frank Zammetti"],
+      "first_publish_year": 2020,
+      "publisher": ["Apress"],
+      "edition_count": 2,
+      "isbn": ["9781484257371"],
+      "language": ["eng"],
+      "subject": ["Full-stack development", "JavaScript", "Web applications"]
+    },
+    {
+      "key": "/works/OL27255513W",
+      "title": "Modern Web Development with ASP.NET Core 3",
+      "author_name": ["Ricardo Peres"],
+      "first_publish_year": 2020,
+      "publisher": ["Packt Publishing"],
+      "edition_count": 1,
+      "isbn": ["9781789619768"],
+      "language": ["eng"],
+      "subject": ["ASP.NET Core", "Web applications", "Software development"]
+    }
+  ]
+}

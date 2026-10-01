@@ -4,81 +4,45 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Alex Clark | IT 4403</title>
-  <link rel="stylesheet" href="styles.css">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Arial, Helvetica, sans-serif; color: #1f2933; background: #f4f6f8; line-height: 1.6; }
+    header { background: #182b49; color: white; padding: 34px 20px; }
+    .wrap { max-width: 1050px; margin: auto; }
+    header p { margin: 5px 0 0; color: #d9e2ec; }
+    nav { background: #0f2038; }
+    nav .wrap { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 20px; }
+    nav a { color: white; text-decoration: none; padding: 8px 12px; border-radius: 5px; }
+    nav a:hover, nav a:focus { background: #294d77; }
+    main { max-width: 1050px; margin: auto; padding: 30px 20px 45px; }
+    section { background: white; padding: 22px; margin-bottom: 20px; border-radius: 9px; box-shadow: 0 3px 12px rgba(0,0,0,.07); }
+    h1 { margin: 0; } h2 { color: #182b49; margin-top: 0; }
+    .links { display: flex; flex-wrap: wrap; gap: 12px; }
+    .links a { display: inline-block; background: #1f5a94; color: white; text-decoration: none; padding: 10px 14px; border-radius: 6px; }
+    .links a:hover, .links a:focus { background: #173f68; }
+    footer { background: #182b49; color: #d9e2ec; padding: 18px 20px; }
+  </style>
 </head>
 <body>
-  <header class="site-header">
-    <div class="container">
-      <p class="eyebrow">Kennesaw State University</p>
-      <h1>Alex Clark</h1>
-      <p class="subtitle">IT 4403 – Advanced Web and Mobile Applications</p>
-
-      <nav aria-label="Primary navigation">
-        <a href="index.html" class="active">Home</a>
-        <a href="exercises.html">Exercises</a>
-        <a href="labs.html">Labs</a>
-        <a href="projects.html">Projects</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="container">
-    <section class="hero">
-      <div>
-        <p class="eyebrow">Course Website</p>
-        <h2>Welcome to my IT 4403 website.</h2>
-        <p>
-          This site is used to organize and publish the exercises, labs, and
-          projects I complete throughout the semester.
-        </p>
-      </div>
-    </section>
-
-    <section aria-labelledby="coursework-heading">
-      <div class="section-heading">
-        <p class="eyebrow">Course Work</p>
-        <h2 id="coursework-heading">Assignments</h2>
-      </div>
-
-      <div class="card-grid">
-        <a class="card" href="exercises.html">
-          <h3>Exercises</h3>
-          <p>Short course exercises and practice work.</p>
-          <span>View exercises →</span>
-        </a>
-
-        <a class="card" href="labs.html">
-          <h3>Labs</h3>
-          <p>Hands-on lab assignments completed during the course.</p>
-          <span>View labs →</span>
-        </a>
-
-        <a class="card" href="projects.html">
-          <h3>Projects</h3>
-          <p>Larger course projects and related deliverables.</p>
-          <span>View projects →</span>
-        </a>
-      </div>
-    </section>
-
-    <section class="info-box" aria-labelledby="about-heading">
-      <h2 id="about-heading">About This Site</h2>
-      <p>
-        This is a student website created for course projects in
-        IT 4403 – Advanced Web and Mobile Applications.
-      </p>
-      <p>
-        <a href="https://ccse.kennesaw.edu/it/" target="_blank" rel="noopener">
-          KSU CCSE Department of Information Technology
-        </a>
-      </p>
-    </section>
-  </main>
-
-  <footer>
-    <div class="container">
-      <p>Student course website for IT 4403.</p>
-    </div>
-  </footer>
+<header><div class="wrap"><h1>Alex Clark</h1><p>IT 4403 - Advanced Web and Mobile Applications</p><p>Kennesaw State University</p></div></header>
+<nav><div class="wrap"><a href="index.html">Home</a><a href="exercises.html">Exercises</a><a href="labs.html">Labs</a><a href="projects.html">Projects</a></div></nav>
+<main>
+  <section>
+    <h2>Course Website</h2>
+    <p>This site is used to organize and publish exercises, labs, and individual project work completed for IT 4403 at Kennesaw State University.</p>
+    <p>Course information is available through the <a href="https://ccse.kennesaw.edu/it/" target="_blank" rel="noopener">KSU CCSE Department of Information Technology website</a>.</p>
+  </section>
+  <section>
+    <h2>Lab Work</h2>
+    <p>Course practice labs are organized on the lab page.</p>
+    <div class="links"><a href="labs.html">View Lab Work</a></div>
+  </section>
+  <section>
+    <h2>Individual Project Milestone</h2>
+    <p>Milestone 1 uses saved Open Library JSON data to display one edition record and a collection of search results.</p>
+    <div class="links"><a href="milestone1-book.html">Milestone 1 - Single Book</a><a href="milestone1-search.html">Milestone 1 - Search Results</a></div>
+  </section>
+</main>
+<footer><div class="wrap">Student course website for IT 4403.</div></footer>
 </body>
 </html>

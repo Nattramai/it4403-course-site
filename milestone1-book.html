@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Milestone 1 - Open Library Book</title>
+  <script src="jquery.min.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: #f4f6f8; color: #1f2933; line-height: 1.6; }
+    header { background: #182b49; color: white; padding: 28px 20px; }
+    header .wrap, main, footer .wrap { max-width: 1050px; margin: auto; }
+    header h1 { margin: 0 0 6px; font-size: 2rem; }
+    header p { margin: 0; color: #d9e2ec; }
+    nav { background: #0f2038; }
+    nav .wrap { max-width: 1050px; margin: auto; display: flex; flex-wrap: wrap; gap: 4px; padding: 8px 20px; }
+    nav a { color: white; text-decoration: none; padding: 8px 12px; border-radius: 5px; }
+    nav a:hover, nav a:focus { background: #294d77; outline: none; }
+    main { padding: 28px 20px 40px; }
+    .status { background: white; border-left: 4px solid #2c5282; padding: 14px; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+    .book-card { display: grid; grid-template-columns: 230px 1fr; gap: 28px; margin-top: 20px; background: white; border-radius: 10px; padding: 24px; box-shadow: 0 4px 16px rgba(0,0,0,.08); }
+    .cover-wrap { text-align: center; }
+    .cover-wrap img { width: 100%; max-width: 210px; min-height: 280px; object-fit: cover; border-radius: 6px; box-shadow: 0 3px 10px rgba(0,0,0,.15); }
+    .cover-fallback { min-height: 280px; display: none; align-items: center; justify-content: center; background: #e5e7eb; color: #52606d; border-radius: 6px; padding: 20px; }
+    h2 { margin-top: 0; color: #182b49; font-size: 1.8rem; }
+    dl { display: grid; grid-template-columns: 180px 1fr; gap: 9px 18px; margin: 0; }
+    dt { font-weight: 700; color: #334e68; }
+    dd { margin: 0; overflow-wrap: anywhere; }
+    .sentence { margin-top: 20px; padding: 15px; background: #f0f4f8; border-radius: 6px; }
+    .record-link { display: inline-block; margin-top: 18px; background: #1f5a94; color: white; text-decoration: none; padding: 10px 16px; border-radius: 6px; }
+    .record-link:hover, .record-link:focus { background: #173f68; }
+    footer { background: #182b49; color: #d9e2ec; padding: 18px 20px; }
+    @media (max-width: 700px) {
+      .book-card { grid-template-columns: 1fr; }
+      dl { grid-template-columns: 1fr; gap: 2px; }
+      dd { margin-bottom: 9px; }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>Open Library: Single Book Record</h1>
+    <p>IT 4403 Individual Project - Milestone 1</p>
+  </div>
+</header>
+<nav aria-label="Primary navigation">
+  <div class="wrap">
+    <a href="index.html">Home</a>
+    <a href="labs.html">Lab Work</a>
+    <a href="milestone1-book.html" aria-current="page">Single Book</a>
+    <a href="milestone1-search.html">Search Results</a>
+  </div>
+</nav>
+<main>
+  <div id="message" class="status">Loading book information...</div>
+  <section id="book" class="book-card" hidden aria-live="polite">
+    <div class="cover-wrap">
+      <img id="cover" alt="">
+      <div id="coverFallback" class="cover-fallback">Cover image not available.</div>
+    </div>
+    <div>
+      <h2 id="title"></h2>
+      <dl id="details"></dl>
+      <div id="firstSentence" class="sentence" hidden></div>
+      <a id="recordLink" class="record-link" href="#" target="_blank" rel="noopener">View this edition on Open Library</a>
+    </div>
+  </section>
+</main>
+<footer><div class="wrap">Alex Clark - Kennesaw State University - IT 4403</div></footer>
+
+<script>
+$(document).ready(function () {
+  $.getJSON("openlibrary-book.json")
+    .done(function (book) {
+      function textValue(value) {
+        if (value === undefined || value === null || value === "") return "Not available";
+        if (Array.isArray(value)) return value.length ? value.join(", ") : "Not available";
+        return value;
+      }
+
+      function keysFromArray(value) {
+        if (!Array.isArray(value) || value.length === 0) return "Not available";
+        return value.map(function (item) {
+          return item && item.key ? item.key : "Not available";
+        }).join(", ");
+      }
+
+      var title = textValue(book.title);
+      $("#title").text(title);
+
+      var rows = [
+        ["Publisher", textValue(book.publishers)],
+        ["Publication Date", textValue(book.publish_date)],
+        ["Page Count", textValue(book.number_of_pages)],
+        ["ISBN-10", textValue(book.isbn_10)],
+        ["ISBN-13", textValue(book.isbn_13)],
+        ["Edition Key", textValue(book.key)],
+        ["Author Reference", keysFromArray(book.authors)],
+        ["Work Reference", keysFromArray(book.works)],
+        ["Language Reference", keysFromArray(book.languages)],
+        ["Internet Archive ID", textValue(book.ocaid)],
+        ["Revision", textValue(book.revision)]
+      ];
+
+      $.each(rows, function (_, row) {
+        $("#details").append($("<dt>").text(row[0]), $("<dd>").text(row[1]));
+      });
+
+      if (book.first_sentence) {
+        var sentence = typeof book.first_sentence === "string" ? book.first_sentence : book.first_sentence.value;
+        if (sentence) {
+          $("#firstSentence").text("First sentence: “" + sentence + "”").removeAttr("hidden");
+        }
+      }
+
+      var recordKey = book.key || "/books/OL7353617M";
+      $("#recordLink").attr("href", "https://openlibrary.org" + recordKey);
+
+      var coverUrl = "";
+      if (Array.isArray(book.covers) && book.covers.length) {
+        coverUrl = "https://covers.openlibrary.org/b/id/" + book.covers[0] + "-L.jpg";
+      } else if (Array.isArray(book.isbn_13) && book.isbn_13.length) {
+        coverUrl = "https://covers.openlibrary.org/b/isbn/" + book.isbn_13[0] + "-L.jpg";
+      }
+
+      if (coverUrl) {
+        $("#cover")
+          .attr("src", coverUrl)
+          .attr("alt", "Cover of " + title)
+          .on("error", function () {
+            $(this).hide();
+            $("#coverFallback").css("display", "flex");
+          });
+      } else {
+        $("#cover").hide();
+        $("#coverFallback").css("display", "flex");
+      }
+
+      $("#message").hide();
+      $("#book").removeAttr("hidden");
+    })
+    .fail(function () {
+      $("#message").text("The book data could not be loaded. Make sure openlibrary-book.json is in the same folder as this webpage.");
+    });
+});
+</script>
+</body>
+</html>

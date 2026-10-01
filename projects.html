@@ -4,42 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Projects | Alex Clark | IT 4403</title>
-  <link rel="stylesheet" href="styles.css">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: #f4f6f8; color: #1f2933; line-height: 1.6; }
+    header, footer { background: #182b49; color: white; padding: 25px 20px; }
+    .wrap, main { max-width: 1050px; margin: auto; }
+    nav { background: #0f2038; padding: 8px 20px; } nav .wrap { display:flex; gap:6px; flex-wrap:wrap; }
+    nav a { color: white; text-decoration:none; padding:8px 12px; border-radius:5px; } nav a:hover, nav a:focus { background:#294d77; }
+    main { padding: 30px 20px 45px; }
+    section { background:white; padding:22px; border-radius:9px; box-shadow:0 3px 12px rgba(0,0,0,.07); }
+    h1 { margin:0; } h2 { color:#182b49; margin-top:0; }
+    li { margin: 10px 0; }
+  </style>
 </head>
 <body>
-  <header class="site-header">
-    <div class="container">
-      <p class="eyebrow">Kennesaw State University</p>
-      <h1>Alex Clark</h1>
-      <p class="subtitle">IT 4403 – Advanced Web and Mobile Applications</p>
-      <nav aria-label="Primary navigation">
-        <a href="index.html">Home</a>
-        <a href="exercises.html" >Exercises</a>
-        <a href="labs.html" >Labs</a>
-        <a href="projects.html" class='active'>Projects</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="container">
-    <section class="page-heading">
-      <p class="eyebrow">Course Work</p>
-      <h2>Projects</h2>
-      <p>This page will contain links to my IT 4403 projects.</p>
-    </section>
-
-    <ul class="assignment-list">
-      <li>
-        <strong>Project 1</strong>
-        <div class="placeholder">Link will be added when this assignment is published.</div>
-      </li>
-    </ul>
-  </main>
-
-  <footer>
-    <div class="container">
-      <p>Student course website for IT 4403.</p>
-    </div>
-  </footer>
+<header><div class="wrap"><h1>Alex Clark</h1><div>IT 4403 - Advanced Web and Mobile Applications</div></div></header>
+<nav><div class="wrap"><a href="index.html">Home</a><a href="exercises.html">Exercises</a><a href="labs.html">Labs</a><a href="projects.html">Projects</a></div></nav>
+<main><section><h2>Individual Project Milestones</h2><p>This page contains links to my IT 4403 individual project work.</p><ul><li><strong>Milestone 1: Open Library JSON Data Display</strong><ul><li><a href="milestone1-book.html">Single-book JSON webpage</a></li><li><a href="milestone1-search.html">Search-results JSON webpage</a></li></ul></li></ul></section></main>
+<footer><div class="wrap">Student course website for IT 4403.</div></footer>
 </body>
 </html>

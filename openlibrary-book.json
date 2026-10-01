@@ -1,0 +1,31 @@
+{
+  "publishers": ["Puffin"],
+  "number_of_pages": 96,
+  "isbn_10": ["0140328726"],
+  "isbn_13": ["9780140328721"],
+  "covers": [8739161],
+  "key": "/books/OL7353617M",
+  "authors": [
+    {"key": "/authors/OL34184A"}
+  ],
+  "ocaid": "fantasticmrfoxpu00roal",
+  "title": "Fantastic Mr. Fox",
+  "publish_date": "October 1, 1988",
+  "works": [
+    {"key": "/works/OL45804W"}
+  ],
+  "languages": [
+    {"key": "/languages/eng"}
+  ],
+  "first_sentence": {
+    "type": "/type/text",
+    "value": "Down in the valley there were three farms."
+  },
+  "latest_revision": 14,
+  "revision": 14,
+  "type": {"key": "/type/edition"},
+  "source_records": [
+    "promise:bwb_daily_pallets_2022-11-28",
+    "ia:fantasticmrfoxpu00roal"
+  ]
+}
