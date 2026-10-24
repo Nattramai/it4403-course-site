@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Open Library Explorer | IT 4403 Milestone 3</title><link rel="stylesheet" href="css/styles.css">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script><script defer src="js/app.js"></script></head>
+<body><header><div class="wrap"><p class="eyebrow">IT 4403 · Individual Project · Milestone 3</p><h1>Open Library Explorer</h1><p>Search books, explore details, and browse a collection without leaving this page.</p></div></header>
+<main class="wrap layout">
+<section class="panel"><p class="eyebrow">Find something to read</p><h2>Book Search</h2><form id="search-form"><label for="search-input">Title or keywords</label><div class="search-row"><input id="search-input" type="search" maxlength="160" placeholder="Try modern web or Dune"><button id="search-button">Search</button></div><p class="hint">Up to 50 results, displayed 10 books per page.</p></form><div id="search-status" class="status" role="status">Enter a title or keyword to get started.</div><div id="search-results" class="book-grid"></div><nav id="pagination" class="pagination" hidden><button id="previous-page" class="secondary" type="button">Previous</button><strong id="page-indicator">Page 1 of 1</strong><button id="next-page" class="secondary" type="button">Next</button></nav></section>
+<section class="panel details-panel"><p class="eyebrow">Selected result</p><h2>Book Details</h2><div id="details-content" class="empty">Select a book from search results or the collection to see its details here.</div></section>
+<section class="panel"><p class="eyebrow">Browse by subject</p><h2>Fantasy Collection</h2><p class="hint">Select a title to view its details in the panel above.</p><div id="collection-status" class="status" role="status">Loading collection…</div><div id="collection-results" class="book-grid"></div></section>
+</main><footer class="wrap"><p>Alex Clark · Kennesaw State University · IT 4403</p><p>Book data provided by <a href="https://openlibrary.org/" target="_blank" rel="noopener">Open Library</a>.</p></footer></body></html>
