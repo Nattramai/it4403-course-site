@@ -1,6 +1,105 @@
 $(function () {
-  const API_KEY = "10348c7a1609123b48827fd4d694d7c4";  
+  const API_KEY = "10348c7a1609123b48827fd4d694d7c4";
   const BASE = "https://api.themoviedb.org/3";
 
-  console.log("Milestone 4 ready");
-});
+  let currentPage = 1;
+  let totalPages = 1;
+  let currentQuery = "";
+  let viewMode = "grid"; // "grid" or "list"
+
+  const $searchForm = $("#search-form");
+  const $searchInput = $("#search-input");
+  const $searchStatus = $("#search-status");
+  const $searchResults = $("#search-results");
+  const $pagination = $("#pagination");
+  const $pageIndicator = $("#page-indicator");
+  const $prevPage = $("#prev-page");
+  const $nextPage = $("#next-page");
+  const $details = $("#details-content");
+
+  // Mustache template for movie cards
+  const cardTemplate = $("#movie-card-template").html();
+
+  function setStatus(msg) {
+    $searchStatus.text(msg);
+  }
+
+  function renderResults(movies) {
+    const html = Mustache.render(cardTemplate, { movies: movies });
+    $searchResults.html(html);
+    $searchResults.removeClass("grid-view list-view").addClass(viewMode + "-view");
+  }
+
+  function search(query, page = 1) {
+    if (!query) {
+      setStatus("Enter a title or keyword.");
+      return;
+    }
+    currentQuery = query;
+    currentPage = page;
+    setStatus("Searching…");
+    $searchResults.empty();
+    $pagination.prop("hidden", true);
+
+    $.ajax({
+      url: `${BASE}/search/movie`,
+      data: {
+        api_key: API_KEY,
+        query: query,
+        page: page,
+        include_adult: false
+      }
+    })
+    .done(function (data) {
+      const movies = (data.results || []).map(m => ({
+        ...m,
+        release_year: m.release_date ? m.release_date.slice(0, 4) : "N/A",
+        vote_average: m.vote_average ? m.vote_average.toFixed(1) : "—"
+      }));
+
+      totalPages = data.total_pages || 1;
+
+      if (movies.length === 0) {
+        setStatus(`No results for “${query}”.`);
+        return;
+      }
+
+      renderResults(movies);
+      setStatus(`Showing page ${page} of ${totalPages} for “${query}”.`);
+
+      $pageIndicator.text(`Page ${page} of ${totalPages}`);
+      $pagination.prop("hidden", totalPages <= 1);
+      $prevPage.prop("disabled", page <= 1);
+      $nextPage.prop("disabled", page >= totalPages);
+    })
+    .fail(function () {
+      setStatus("Search failed. Check your connection or API key.");
+    });
+  }
+
+  // Search form
+  $searchForm.on("submit", function (e) {
+    e.preventDefault();
+    const q = $.trim($searchInput.val());
+    search(q, 1);
+  });
+
+  // Pagination
+  $prevPage.on("click", () => search(currentQuery, currentPage - 1));
+  $nextPage.on("click", () => search(currentQuery, currentPage + 1));
+
+  // View toggle
+  $("#grid-view").on("click", function () {
+    viewMode = "grid";
+    $(this).addClass("active");
+    $("#list-view").removeClass("active");
+    $searchResults.removeClass("list-view").addClass("grid-view");
+  });
+
+  $("#list-view").on("click", function () {
+    viewMode = "list";
+    $(this).addClass("active");
+    $("#grid-view").removeClass("active");
+    $searchResults.removeClass("grid-view").addClass("list-view");
+  });
+
