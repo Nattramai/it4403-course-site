@@ -5,7 +5,7 @@ $(function () {
   let currentPage = 1;
   let totalPages = 1;
   let currentQuery = "";
-  let viewMode = "grid"; // "grid" or "list"
+  let viewMode = "grid";
 
   const $searchForm = $("#search-form");
   const $searchInput = $("#search-input");
@@ -17,8 +17,8 @@ $(function () {
   const $nextPage = $("#next-page");
   const $details = $("#details-content");
 
-  // Mustache template for movie cards
   const cardTemplate = $("#movie-card-template").html();
+  const detailsTemplate = $("#movie-details-template").html();
 
   function setStatus(msg) {
     $searchStatus.text(msg);
@@ -77,6 +77,26 @@ $(function () {
     });
   }
 
+  function loadDetails(id) {
+    $details.html('<p class="status">Loading details…</p>');
+
+    $.ajax({
+      url: `${BASE}/movie/${id}`,
+      data: { api_key: API_KEY }
+    })
+    .done(function (movie) {
+      const html = Mustache.render(detailsTemplate, {
+        ...movie,
+        runtime: movie.runtime || "N/A",
+        original_language: (movie.original_language || "").toUpperCase()
+      });
+      $details.html(html);
+    })
+    .fail(function () {
+      $details.html('<p class="status error">Could not load details. Try again.</p>');
+    });
+  }
+
   // Search form
   $searchForm.on("submit", function (e) {
     e.preventDefault();
@@ -102,4 +122,11 @@ $(function () {
     $("#grid-view").removeClass("active");
     $searchResults.removeClass("grid-view").addClass("list-view");
   });
+
+  // Click a movie → load details
+  $searchResults.on("click", ".movie-select", function () {
+    const id = $(this).closest(".movie-card").data("id");
+    loadDetails(id);
+  });
+});
 
