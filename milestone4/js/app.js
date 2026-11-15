@@ -16,6 +16,8 @@ $(function () {
   const $prevPage = $("#prev-page");
   const $nextPage = $("#next-page");
   const $details = $("#details-content");
+  const $collectionResults = $("#collection-results");
+  const $collectionStatus = $("#collection-status");
 
   const cardTemplate = $("#movie-card-template").html();
   const detailsTemplate = $("#movie-details-template").html();
@@ -97,6 +99,38 @@ $(function () {
     });
   }
 
+  function loadCollection(type) {
+    $collectionStatus.text("Loading…");
+    $collectionResults.empty();
+
+    const endpoint = type === "popular" ? "/movie/popular" : "/movie/top_rated";
+
+    $.ajax({
+      url: BASE + endpoint,
+      data: { api_key: API_KEY, page: 1 }
+    })
+    .done(function (data) {
+      const movies = (data.results || []).slice(0, 10).map(m => ({
+        ...m,
+        release_year: m.release_date ? m.release_date.slice(0, 4) : "N/A",
+        vote_average: m.vote_average ? m.vote_average.toFixed(1) : "—"
+      }));
+
+      if (movies.length === 0) {
+        $collectionStatus.text("No movies available.");
+        return;
+      }
+
+      const html = Mustache.render(cardTemplate, { movies: movies });
+      $collectionResults.html(html);
+      $collectionResults.removeClass("grid-view list-view").addClass(viewMode + "-view");
+      $collectionStatus.text(type === "popular" ? "Popular movies" : "Top rated movies");
+    })
+    .fail(function () {
+      $collectionStatus.text("Could not load collection.");
+    });
+  }
+
   $searchForm.on("submit", function (e) {
     e.preventDefault();
     const q = $.trim($searchInput.val());
@@ -111,6 +145,7 @@ $(function () {
     $(this).addClass("active");
     $("#list-view").removeClass("active");
     $searchResults.removeClass("list-view").addClass("grid-view");
+    $collectionResults.removeClass("list-view").addClass("grid-view");
   });
 
   $("#list-view").on("click", function () {
@@ -118,10 +153,30 @@ $(function () {
     $(this).addClass("active");
     $("#grid-view").removeClass("active");
     $searchResults.removeClass("grid-view").addClass("list-view");
+    $collectionResults.removeClass("grid-view").addClass("list-view");
   });
 
   $searchResults.on("click", ".movie-select", function () {
     const id = $(this).closest(".movie-card").data("id");
     loadDetails(id);
   });
+
+  $("#tab-popular").on("click", function () {
+    $(this).addClass("active");
+    $("#tab-top-rated").removeClass("active");
+    loadCollection("popular");
+  });
+
+  $("#tab-top-rated").on("click", function () {
+    $(this).addClass("active");
+    $("#tab-popular").removeClass("active");
+    loadCollection("top_rated");
+  });
+
+  $collectionResults.on("click", ".movie-select", function () {
+    const id = $(this).closest(".movie-card").data("id");
+    loadDetails(id);
+  });
+
+  loadCollection("popular");
 });
