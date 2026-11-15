@@ -97,18 +97,15 @@ $(function () {
     });
   }
 
-  // Search form
   $searchForm.on("submit", function (e) {
     e.preventDefault();
     const q = $.trim($searchInput.val());
     search(q, 1);
   });
 
-  // Pagination
   $prevPage.on("click", () => search(currentQuery, currentPage - 1));
   $nextPage.on("click", () => search(currentQuery, currentPage + 1));
 
-  // View toggle
   $("#grid-view").on("click", function () {
     viewMode = "grid";
     $(this).addClass("active");
@@ -123,7 +120,6 @@ $(function () {
     $searchResults.removeClass("grid-view").addClass("list-view");
   });
 
-  // Click a movie → load details
   $searchResults.on("click", ".movie-select", function () {
     const id = $(this).closest(".movie-card").data("id");
     loadDetails(id);
