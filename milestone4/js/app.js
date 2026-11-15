@@ -180,3 +180,4 @@ $(function () {
 
   loadCollection("popular");
 });
+
