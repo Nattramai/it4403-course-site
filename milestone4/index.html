@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Movie Explorer | IT 4403 Milestone 4</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.2.0/mustache.min.js"></script>
+  <script defer src="js/app.js"></script>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <p class="eyebrow">IT 4403 · Individual Project · Milestone 4</p>
+      <h1>Movie Explorer</h1>
+      <p>Search movies, switch views, and browse popular/top-rated titles — all on one page.</p>
+    </div>
+  </header>
+
+  <main class="wrap layout">
+    <!-- Search + Results -->
+    <section class="panel">
+      <p class="eyebrow">Find a movie</p>
+      <h2>Search</h2>
+      <form id="search-form">
+        <label for="search-input">Title or keywords</label>
+        <div class="search-row">
+          <input id="search-input" type="search" placeholder="Try Dune, Inception, etc.">
+          <button type="submit">Search</button>
+        </div>
+      </form>
+
+      <div class="toolbar">
+        <div class="view-toggle">
+          <button id="grid-view" class="active">Grid</button>
+          <button id="list-view">List</button>
+        </div>
+        <div id="search-status" class="status">Enter a title to search.</div>
+      </div>
+
+      <div id="search-results" class="results grid-view"></div>
+      <nav id="pagination" class="pagination" hidden>
+        <button id="prev-page" type="button">Previous</button>
+        <strong id="page-indicator">Page 1 of 1</strong>
+        <button id="next-page" type="button">Next</button>
+      </nav>
+    </section>
+
+    <!-- Details Panel -->
+    <section class="panel details-panel">
+      <p class="eyebrow">Selected movie</p>
+      <h2>Details</h2>
+      <div id="details-content" class="empty">Select a movie to see details here.</div>
+    </section>
+
+    <!-- Public Collection -->
+    <section class="panel">
+      <p class="eyebrow">Browse</p>
+      <h2>Popular & Top Rated</h2>
+      <div class="collection-tabs">
+        <button id="tab-popular" class="active">Popular</button>
+        <button id="tab-top-rated">Top Rated</button>
+      </div>
+      <div id="collection-status" class="status">Loading…</div>
+      <div id="collection-results" class="results grid-view"></div>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    <p>Alex Clark · Kennesaw State University · IT 4403</p>
+    <p>Data from <a href="https://www.themoviedb.org/" target="_blank" rel="noopener">The Movie Database (TMDB)</a>.</p>
+  </footer>
+
+  <!-- Mustache templates (hidden) -->
+  <script id="movie-card-template" type="text/template">
+    {{#movies}}
+    <article class="movie-card" data-id="{{id}}">
+      <button type="button" class="movie-select">
+        {{#poster_path}}
+          <img class="poster" src="https://image.tmdb.org/t/p/w185{{poster_path}}" alt="Poster for {{title}}">
+        {{/poster_path}}
+        {{^poster_path}}
+          <div class="poster-placeholder">No poster</div>
+        {{/poster_path}}
+        <div class="movie-info">
+          <span class="movie-title">{{title}}</span>
+          <span class="movie-meta">{{release_year}} · ★ {{vote_average}}</span>
+        </div>
+      </button>
+    </article>
+    {{/movies}}
+  </script>
+
+  <script id="movie-details-template" type="text/template">
+    <div class="details-card">
+      <div class="details-top">
+        {{#poster_path}}
+          <img class="details-poster" src="https://image.tmdb.org/t/p/w300{{poster_path}}" alt="Poster for {{title}}">
+        {{/poster_path}}
+        {{^poster_path}}
+          <div class="poster-placeholder large">No poster</div>
+        {{/poster_path}}
+        <div>
+          <h3>{{title}}</h3>
+          <dl>
+            <dt>Release</dt><dd>{{release_date}}</dd>
+            <dt>Rating</dt><dd>{{vote_average}} / 10 ({{vote_count}} votes)</dd>
+            <dt>Runtime</dt><dd>{{runtime}} min</dd>
+            <dt>Language</dt><dd>{{original_language}}</dd>
+          </dl>
+        </div>
+      </div>
+      <h4>Overview</h4>
+      <p>{{overview}}</p>
+      {{#genres.length}}
+      <h4>Genres</h4>
+      <ul class="genre-list">
+        {{#genres}}<li>{{name}}</li>{{/genres}}
+      </ul>
+      {{/genres.length}}
+    </div>
+  </script>
+</body>
+</html>
